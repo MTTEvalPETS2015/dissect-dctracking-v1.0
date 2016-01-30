@@ -4,6 +4,10 @@ Original version of DCO for  CVPR 2012 paper
 ### Breakdown steps
 (1) The additional packages
 > - GCO
+>   - A bunch of GCO_*.m files are missing from the `dctracking-v1.0/gco-v3.0/matlab` folder, which are crucial to bridge Matlab and GCO wrappers
+>   - the MEX files of gco-v3.0 included in *dctracking-v1.0* are out of dated for my laptop (matlab 2015b etc.)
+>   - DCO have to use compiled GCO folder from GCO_X* (i.e. `dctracking/external/GCO/{matlab, bin}`) by addpath() when running `dcTrackerDemo.m`
+
 > - splinefit
 
 (2) fill options struct
