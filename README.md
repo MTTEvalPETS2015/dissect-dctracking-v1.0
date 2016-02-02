@@ -30,3 +30,20 @@ Original version of DCO for  CVPR 2012 paper
 >   -   initSolFile     initial solution (.xml or .mat)
 >   -   targetAR        aspect ratio of targets on image
 >   -   bgMask          mask to bleach out the background
+
+(4) To facilitate the batch process of many sequences in future, the main function `dcTrackerDemo1.m` is modified to read options and `SceneInfo` from configuration files. 
+> - exactly the same way as **dctracking** 
+>    - opt=readDCOptions(optfile);
+>    - sceneInfo=getSceneInfo(scenario,opti);
+
+(5) detection format
+> - refer to `dctracking-v1.0/utils/parseDetections.m`, `dctracking-v1.0/utils/displayDetectionBBoxes.m`
+> - once load, detections are loaded into a 1xN struct array with 11 fields
+>   - bx, by: coordinates of top-left corner of the bounding box
+>   - ht, wd: width, height of the bounding box
+>   - xi, yi: coordinates of the median point of the bottom of bounding box, i.e. foot posiiton
+>   - xp, yp: redundant fields, equals to (xi,yi) in 2d case, or (xw,yw) in 3d case
+>   - sc: detection score
+>   - xw, yw: world coordinates of the detected target (NOT SURE WHICH POINT EXACTLY BUT MOST LIKELY THE FOOT POSITION)
+>   - **xc, yc**: centroid of the bounding box, read from XML file, not included in MATLAB struct arrary
+
