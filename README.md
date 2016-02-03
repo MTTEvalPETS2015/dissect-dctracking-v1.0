@@ -36,9 +36,10 @@ Original version of DCO for  CVPR 2012 paper
 >    - opt=readDCOptions(optfile);
 >    - sceneInfo=getSceneInfo(scenario,opti);
 
-(5) detection format
+(5) detection format for dctracking-v1.0 (namely DCO), dctracking (namely DCO_X), contracking (namely CEM)
 > - refer to `dctracking-v1.0/utils/parseDetections.m`, `dctracking-v1.0/utils/displayDetectionBBoxes.m`
-> - once load, detections are loaded into a 1xN struct array with 11 fields
+> - once load, detections are loaded into a 1xN struct array with 11 fields, where N is the total number of sequence frames.
+> - the length of each field equals to the number of detections at current frame
 >   - bx, by: coordinates of top-left corner of the bounding box
 >   - ht, wd: width, height of the bounding box
 >   - xi, yi: coordinates of the median point of the bottom of bounding box, i.e. foot posiiton
@@ -47,3 +48,7 @@ Original version of DCO for  CVPR 2012 paper
 >   - xw, yw: world coordinates of the detected target (NOT SURE WHICH POINT EXACTLY BUT MOST LIKELY THE FOOT POSITION)
 >   - **xc, yc**: centroid of the bounding box, read from XML file, not included in MATLAB struct arrary
 
+(6) detection format for tracking_cvpr11_release_v1.0 (namely DP_MCF)
+> - refer to `detect_objects.m`, `bboxes2dres.m`, `dres2bboxes.m` under `tracking_cvpr11_release_v1.0`
+> - detections are saved in 1xN struct array with 1 field, where N is the total number of sequence frames.
+>   - each item has 1 field 'bbox', which is in turn a Dx5 
