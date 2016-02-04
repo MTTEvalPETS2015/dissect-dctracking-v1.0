@@ -52,3 +52,48 @@ Original version of DCO for  CVPR 2012 paper
 > - refer to `detect_objects.m`, `bboxes2dres.m`, `dres2bboxes.m` under `tracking_cvpr11_release_v1.0`
 > - detections are saved in 1xN struct array with 1 field, where N is the total number of sequence frames.
 >   - each item has 1 field 'bbox', which is in turn a Dx5 
+
+(7) Errors before success
+> - **sceneInfo.targetSize** is missing
+```matlab
+Reference to non-existent field 'targetSize'
+Error in getSplineProposals (line 24)
+speedThreshold = sceneInfo.targetSize;
+```
+> - **sceneInfo.trackingArea** is missing
+```matlab
+Reference to non-existent field 'trackingArea'.
+Error in getSplineGoodness (line 22)
+areaLimits=sceneInfo.trackingArea;
+Error in getSplineProposals (line 111)
+    [sg, ~]=getSplineGoodness(cubicspline,1,alldpoints,T);
+Error in dcTrackerDemo1 (line 122)
+```
+> - solution, copy the following from `dctracking-v1.0/getSceneInfoDCDemo.m`
+
+```matlab
+%% target size
+sceneInfo.targetSize=20;                % target 'radius'
+sceneInfo.targetSize=sceneInfo.imgWidth/30;
+
+%% tracking area
+% if we are tracking on the ground plane
+% we need to explicitly secify the tracking area
+% otherwise image = tracking area
+if opt.track3d
+     sceneInfo.trackingArea=[-14069.6, 4981.3, -14274.0, 1733.5];
+else
+     sceneInfo.trackingArea=[1 sceneInfo.imgWidth 1 sceneInfo.imgHeight];   % tracking area
+end
+
+%% check
+if opt.track3d
+    if ~isfield(sceneInfo,'trackingArea')
+        error('tracking area [minx maxx miny maxy] required for 3d tracking');
+    elseif ~isfield(sceneInfo,'camFile')
+        error('camera parameters required for 3d tracking');
+    end
+end
+```
+
+
