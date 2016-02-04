@@ -112,7 +112,7 @@ if opt.track3d
 end
 ```
 (8) new error, not idea why yet
-
+> - **OK**, mistake made when converting detection from DP_MCF to DCO/DCO_X in getDetectionsFromDPMCF.m
 ```matlab
 Index exceeds matrix dimensions.
 Error in getSplineGoodness (line 84)
@@ -122,4 +122,9 @@ Error in getSplineProposals (line 111)
 Error in dcTrackerDemo1 (line 122)
 mhs=getSplineProposals(alldpoints,opt.nInitModels,T); 
 ```
-
+(9) **IMPORTANT DIFFERENCE** slight different version of `splinefit` is used for DCO and DCO_X
+> - `splinefit.m` can be found in `dctracking-v1.0/utils/splinefit/` and `motutils/external/splinefit/` respectively
+> - Essentially, `splinefit` used by DCO_X (under `motutils`) has 1 extra parameter to take care of, namely `lad`
+>       - lad: flag for least absolute deviation (Anton)
+> - Also, an extra field `bspline` is added to the output, which no-surprisingly causing trouble for DCO expectation.
+> - the extra `bspline` is obtained by `pp.bspline=pp2sp(pp);` where pp2sp is from Matlab toolbox **_toolbox/curvefit/splines/_**
