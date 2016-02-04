@@ -95,5 +95,15 @@ if opt.track3d
     end
 end
 ```
+(8) new error, not idea why yet
 
+```matlab
+Index exceeds matrix dimensions.
+Error in getSplineGoodness (line 84)
+            confinframe=alldpoints.sp(detind(inthisframe>0));
+Error in getSplineProposals (line 111)
+    [sg, ~]=getSplineGoodness(cubicspline,1,alldpoints,T);
+Error in dcTrackerDemo1 (line 122)
+mhs=getSplineProposals(alldpoints,opt.nInitModels,T); 
+```
 
