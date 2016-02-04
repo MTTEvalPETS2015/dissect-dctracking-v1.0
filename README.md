@@ -31,10 +31,22 @@ Original version of DCO for  CVPR 2012 paper
 >   -   targetAR        aspect ratio of targets on image
 >   -   bgMask          mask to bleach out the background
 
-(4) To facilitate the batch process of many sequences in future, the main function `dcTrackerDemo1.m` is modified to read options and `SceneInfo` from configuration files. 
+(4) To facilitate the batch process of many sequences in future, the main function `dcTrackerDemo1.m` is modified to read `options` and `SceneInfo` from configuration files. 
 > - exactly the same way as **dctracking** 
 >    - opt=readDCOptions(optfile);
 >    - sceneInfo=getSceneInfo(scenario,opti);
+> - **NOTE** be careful with the parameter values though. It is understandable that parameters may have different values between `dctracking` and `dctracking-v1.0`
+>    - Also, at least 4 papameters are missing from dctracking:
+>       - opt.totalSupFactor= 2;
+>       - opt.meanDPFFactor=  2;
+>       - opt.meanDPFeFactor= 2;
+>       - opt.curvatureFactor=0;
+>    - Some parameters have significantly different values, e.g. (dctracking vs. dctracking-1.0)
+>       - nInitModels = 10   VS. opt.nInitModels = 500;
+>       - labelCost =	1000 VS. opt.labelCost = 200;
+        - pairwiseFactor=	1   VS. opt.pairwiseFactor= 100;	
+        - goodnessFactor=	1   VS. opt.goodnessFactor= 10;
+>       - etc.
 
 (5) detection format for dctracking-v1.0 (namely DCO), dctracking (namely DCO_X), contracking (namely CEM)
 > - refer to `dctracking-v1.0/utils/parseDetections.m`, `dctracking-v1.0/utils/displayDetectionBBoxes.m`
@@ -50,8 +62,12 @@ Original version of DCO for  CVPR 2012 paper
 
 (6) detection format for tracking_cvpr11_release_v1.0 (namely DP_MCF)
 > - refer to `detect_objects.m`, `bboxes2dres.m`, `dres2bboxes.m` under `tracking_cvpr11_release_v1.0`
-> - detections are saved in 1xN struct array with 1 field, where N is the total number of sequence frames.
->   - each item has 1 field 'bbox', which is in turn a Dx5 
+> - detections are saved in 1xN struct array **_bboxes_** with 1 field, where N is the total number of sequence frames.
+>   - each item has 1 field 'bbox', which is in turn a Dx5 matrix, where D is number of detection for current frame
+>   - each detection has the form of [x,y,w,h,score], taking top-left as oringin
+> - **NOTE** values in **_bboxes_** can not be directly used: the image size has been doubled to detect small object
+> - values are restored to struct array **_dres_** which is a 1x1 struct with 5 fields, i.e. x,y,w,h,r,fr
+>   - each field is a vector of Mx1, where M is the total number of detections for this sequence, i.e. M = N x D
 
 (7) Errors before success
 > - **sceneInfo.targetSize** is missing
