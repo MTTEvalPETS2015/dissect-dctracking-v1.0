@@ -128,3 +128,28 @@ mhs=getSplineProposals(alldpoints,opt.nInitModels,T);
 >       - lad: flag for least absolute deviation (Anton)
 > - Also, an extra field `bspline` is added to the output, which no-surprisingly causing trouble for DCO expectation.
 > - the extra `bspline` is obtained by `pp.bspline=pp2sp(pp);` where pp2sp is from Matlab toolbox **_toolbox/curvefit/splines/_**
+
+(10) **ANOTHER IMPORTANT DIFFERENCE** between *DCO* and *DCO_X*
+> - they use different trajectory models specified in `getEmptyModelStruct.m` file
+> - Trajectory model struct for DCO:
+>       - form
+>       - breaks
+>       - coefs
+>       - pieces
+>       - order
+>       - dim
+>       - start
+>       - end
+>       - goodness
+>       - lastused
+> - Trajectory model struct for DCO_X, remove **goodness**, with the following extras:
+>       - bspline
+>       - labelCost
+>       - lcComponents
+>       - lastused
+>       - index
+>       - ptindex
+>       - ptvindex
+
+(11) `cutDetections.m` under `dctracking-v1.0/utils/` and `motutils/` are almost the same, except the latter has two more useless parameters, namely `sceneInfo` and `opt`
+> - they are not useful for my case anyway, since we are doing 2D tracking only
