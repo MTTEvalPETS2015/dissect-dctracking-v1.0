@@ -128,6 +128,10 @@ mhs=getSplineProposals(alldpoints,opt.nInitModels,T);
 >       - lad: flag for least absolute deviation (Anton)
 > - Also, an extra field `bspline` is added to the output, which no-surprisingly causing trouble for DCO expectation.
 > - the extra `bspline` is obtained by `pp.bspline=pp2sp(pp);` where pp2sp is from Matlab toolbox **_toolbox/curvefit/splines/_**
+> - functions that use `splinefit` therefore has to stick to its own version, i.e. `dctracking-v1.0/utils/splinefit/` for DCO and `motutils/external/splinefit/` for DCO_X
+>       - getSplineProposals.m
+>       - getSplinesFromEKF.m
+>       - reestimateSplines.m
 
 (10) **ANOTHER IMPORTANT DIFFERENCE** between *DCO* and *DCO_X*
 > - they use different trajectory models specified in `getEmptyModelStruct.m` file
