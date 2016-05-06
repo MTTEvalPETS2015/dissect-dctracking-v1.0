@@ -62,12 +62,17 @@ Original version of DCO for  CVPR 2012 paper
 
 (6) detection format for tracking_cvpr11_release_v1.0 (namely DP_MCF)
 > - refer to `detect_objects.m`, `bboxes2dres.m`, `dres2bboxes.m` under `tracking_cvpr11_release_v1.0`
-> - detections are saved in 1xN struct array **_bboxes_** with 1 field, where N is the total number of sequence frames.
->   - each item has 1 field 'bbox', which is in turn a Dx5 matrix, where D is number of detection for current frame
->   - each detection has the form of [x,y,w,h,score], taking top-left as oringin
-> - **NOTE** values in **_bboxes_** can not be directly used: the image size has been doubled to detect small object
-> - values are restored to struct array **_dres_** which is a 1x1 struct with 5 fields, i.e. x,y,w,h,r,fr
->   - each field is a vector of Mx1, where M is the total number of detections for this sequence, i.e. M = N x D
+> - detections are first returned as DPM format in **_boxes_**, which has 30 columns for every detection
+> - detections are predicted by `getboxes` and then saved in 1xN struct array **_bboxes_** with 1 field, where N is the total number of sequence frames.
+> - each item has 1 field 'bbox', which is in turn a Dx5 matrix, where D is number of detection for current frame
+> - each detection has the form of [x1,y1,x2,y2,score], taking top-left as oringin
+> - **NOTE** values in **_bboxes_** or **_bbox_** can not be directly used: the image size has been doubled to detect small object
+> - values are restored to struct array **_dres_** which is a 1x1 struct with 6 fields, i.e. x,y,w,h,r,fr
+> - each field is a vector of Mx1, where M is the total number of detections for this sequence, i.e. M = N x D
+
+#### Basically, DPM returns detections organised by each row corresponds to every frame first, then each item has multiple rows for all detections in this frame.
+#### DP_MCF flattened this structure by having separate `x` columns with M = N x D items
+
 
 (7) Errors before success
 > - **sceneInfo.targetSize** is missing
